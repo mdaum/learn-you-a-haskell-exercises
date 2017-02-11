@@ -26,31 +26,32 @@ isPalindrome l = l == (reverse l)
  -
  - For example: concat [[1,2,3],[3,4,5]] returns [1,2,3,3,4,5]
  -}
-duplicate xs = undefined
+duplicate xs = concat [[x,x] | x <- xs] --concat [x,x] for each x in xs
 
 {-
  - Imitate the functinality of zip
  - The function "min x y" returns the lower of values x and y
  - For example "ziplike [1,2,3] ['a', 'b', 'c', 'd']" returns [(1,'a'), (2, 'b'), (3, 'c')]
  -}
-ziplike xs ys = undefined
+ziplike xs ys = [(xs !! i, ys !! i)|i <- [0..(min (length xs) (length ys)) - 1]] --give me all tuples of x[i] y[i] where i ranges from 0 to the min of the lengths of x and y
 
 -- Split a list l at element k into a tuple: The first part up to and including k, the second part after k
 -- For example "splitAtIndex 3 [1,1,1,2,2,2]" returns ([1,1,1],[2,2,2])
-splitAtIndex k l = undefined
+splitAtIndex k l = (k `take` l, k `drop` l) --use ` to call another known function inside another
 
 -- Drop the element at index k in list l
 -- For example "dropK 3 [0,0,0,1,0,0,0]" returns [0,0,0,0,0,0]
-dropK k l = undefined
+dropK k l = k `take` l ++ (k+1) `drop` l --Give me first k-1 things and last k+1 things
+--OR --dropK k l = [l !! i | i /= k] --give me list l but without element at k
 
 -- Extract elements between ith and kth element in list l. Including i, but not k
 -- For example, "slice 3 6 [0,0,0,1,2,3,0,0,0]" returns [1,2,3]
-slice i k l = undefined
+slice i k l = take (k-i) (drop i l) --give me the first k-i things in the last i things in the list...easy
 
 -- Insert element x in list l at index k
 -- For example, "insertElem 2 5 [0,0,0,0,0,0]" returns [0,0,0,0,0,2,0]
-insertElem x k l = undefined
+insertElem x k l = take k l ++ [x] ++ drop k l --give me the first k things...concat with new insert...concat with back end
 
 -- Rotate list l n places left.
 -- For example, "rotate 2 [1,2,3,4,5]" gives [3,4,5,1,2]
-rotate n l = undefined
+rotate n l = drop n l ++ take n l
